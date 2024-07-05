@@ -2,4 +2,4 @@
 
 Minseong Park, Suhan Woo, Euntai Kim
 
-_Accepted in ECCV 2024_
+_ECCV 2024 (accepted)_
