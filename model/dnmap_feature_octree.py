@@ -172,6 +172,12 @@ class DNMapFeatureOctree(FeatureOctreeBase):
                     continuous_embeddings = torch.cat((self.continuous_embeddings[:-1],new_items),0)
                     self.continuous_embeddings = nn.Parameter(continuous_embeddings)
     
+    def sort_items(self, i, items_indices):
+        super().sort_items(i, items_indices)
+        if self.use_continuous:
+            if (i-self.free_level_num) == self.continuous_embedding_level:
+                self.continuous_embeddings = nn.Parameter(self.continuous_embeddings[items_indices])
+
     def set_zero(self):
         if not self.baked:
             super().set_zero()

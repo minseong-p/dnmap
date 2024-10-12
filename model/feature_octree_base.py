@@ -111,9 +111,11 @@ class FeatureOctreeBase(nn.Module):
         if new_nodes.shape[0] > 0:
             corners = kal.ops.spc.points_to_corners(new_nodes).reshape(-1,3)
             unique_corners = torch.unique(corners, dim=0)
-            unique_corners_morton = kal.ops.spc.points_to_morton(unique_corners).cpu().numpy().tolist()
+            unique_corners_morton = kal.ops.spc.points_to_morton(unique_corners)
             if sort_corners:
                 unique_corners_morton = torch.sort(unique_corners_morton)[0].cpu().numpy().tolist() # sort the morton code to restore the octree structure
+            else:
+                unique_corners_morton = unique_corners_morton.cpu().numpy().tolist()
 
             # update the corners lookup table
             if len(self.corners_lookup_tables[i]) == 0: # for the first frame
@@ -197,11 +199,11 @@ class FeatureOctreeBase(nn.Module):
         sum_features = torch.zeros(coord.shape[0], self.feature_dim, device=self.device)
         for l in range(self.featured_level_num): # for each level
             current_level = self.max_level - l
-            feature_level = self.featured_level_num-l-1
+            item_level = self.featured_level_num-l-1
             # Interpolating
             # get the interpolation coefficients for the 8 neighboring corners, corresponding to the order of the hierarchical_indices
             coeffs = self.interpolate(coord,current_level,self.polynomial_interpolation) 
-            sum_features += (self.hierarchical_items[feature_level][hierarchical_indices[l]]*coeffs).sum(1) 
+            sum_features += (self.hierarchical_items[item_level][hierarchical_indices[l]]*coeffs).sum(1) 
             # corner index -1 means the queried voxel is not in the leaf node. If so, we will get the trashbin row of the feature grid, 
             # and get the value 0, the feature for this level will then be 0
         return sum_features
@@ -249,7 +251,7 @@ class FeatureOctreeBase(nn.Module):
     
     def save_model(self, experiment_path):
         self.save_structure(experiment_path)
-        self.sort_items()
+        self.sort_hierarchical_items()
         self.save_items(experiment_path)
     
     def load_model(self, experiment_path):
@@ -285,7 +287,7 @@ class FeatureOctreeBase(nn.Module):
     def load_items(self, experiment_path):
         self.hierarchical_items = torch.load(os.path.join(experiment_path, "neural_map", "item.pth"))
 
-    def sort_items(self):
+    def sort_hierarchical_items(self):
         """
         Sorts the items in the hierarchical structure based on Morton codes.
         """
@@ -299,8 +301,10 @@ class FeatureOctreeBase(nn.Module):
             for m in sorted_corners_morton:
                 items_indices.append(self.corners_lookup_tables[i][m])
             items_indices.append(-1)
-            items = self.hierarchical_items[i-self.free_level_num][items_indices]
-            self.hierarchical_items[i-self.free_level_num] = nn.Parameter(items)
+            self.sort_items(i, items_indices)
+
+    def sort_items(self, i, items_indices):
+        self.hierarchical_items[i-self.free_level_num] = nn.Parameter(self.hierarchical_items[i-self.free_level_num][items_indices])
 
     def print_detail(self):
         print("Current Octomap:")
