@@ -30,9 +30,9 @@ Maicity(~100 iteration)|Newer College (~1000 iteratin)|
 
 ||Mapping Quality|<center>Storage</center>|Time|
 |-|:-:|-:|-|
-|SHINE-Mapping|7.42/**10.47**/<u>8.94</u>/92.96|42187kB (100.0%)|**35m 58s**|
-|Ours-discrete (8-bit)|<u>7.24</u>/10.93/9.08/<u>93.35</u>|**1321**kB ( &nbsp;&nbsp;&nbsp;**3.1**%)|<u>37m 27s</u>|
-|Ours-full (8-bit)|**6.68**/<u>10.64</u>/**8.67**/**93.60**|<u>2867</u>kB ( &nbsp;&nbsp;&nbsp;<u>6.8</u>%)|45m 27s|
+|SHINE-Mapping|7.42/**10.47**/<ins>8.94</ins>/92.96|42187kB (100.0%)|**35m 58s**|
+|Ours-discrete (8-bit)|<ins>7.24</ins>/10.93/9.08/<ins>93.35</ins>|**1321**kB ( &nbsp;&nbsp;&nbsp;**3.1**%)|<ins>37m 27s</ins>|
+|Ours-full (8-bit)|**6.68**/<ins>10.64</ins>/**8.67**/**93.60**|<ins>2867</ins>kB ( &nbsp;&nbsp;&nbsp;<ins>6.8</ins>%)|45m 27s|
 
 ## Installation
 To set up environment, run the commands:
