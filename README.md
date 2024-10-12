@@ -75,7 +75,7 @@ python visualization.py [EXPERIMENT_PATH]
 
 ```
 @InProceedings{park2024dnmap,
-    author    =  {Park, Minseong and Woo, Suhan and Kim, Euntai},
+    author    = {Park, Minseong and Woo, Suhan and Kim, Euntai},
     title     = {Decomposition of Neural Discrete Representations for Large-Scale 3D Mapping},
     booktitle = {European Conference on Computer Vision (ECCV)},
     year      = {2024}
