@@ -18,7 +18,7 @@ shallow neural network and an efficient octree-based feature volume, our
 DNMap successfully approximates signed distance functions and compresses the feature volume while preserving mapping quality.
 </details>
 
-Maicity(~100 iteration)|Newer College (~1000 iteratin)|
+Maicity(~100 iteration)|Newer College (~1000 iteration)|
 :-: | :-: |
 ![plot](./figures/optimizing_100_maicity.gif)|![plot](./figures/optimizing_1000_ncd.gif)|
 
